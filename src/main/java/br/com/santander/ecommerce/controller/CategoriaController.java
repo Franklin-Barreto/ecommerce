@@ -17,7 +17,7 @@ import br.com.santander.ecommerce.model.Categoria;
 import br.com.santander.ecommerce.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("/categoria/")
+@RequestMapping("/categoria")
 public class CategoriaController {
 
 	@Autowired

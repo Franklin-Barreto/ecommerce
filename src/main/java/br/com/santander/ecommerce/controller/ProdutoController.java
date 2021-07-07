@@ -13,7 +13,7 @@ import br.com.santander.ecommerce.repository.CategoriaRepository;
 import br.com.santander.ecommerce.repository.ProdutoRepository;
 
 @RestController
-@RequestMapping("/produto/")
+@RequestMapping("/produto")
 public class ProdutoController {
 
 	@Autowired
