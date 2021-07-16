@@ -3,8 +3,11 @@ package br.com.santander.ecommerce.model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PedidoDtoInput {
+import javax.validation.constraints.NotNull;
 
+public class PedidoDtoInput {
+	
+	@NotNull
 	private Integer clienteId;
 	private List<ItemPedidoInputDto> itensPedidoInputDto = new ArrayList<>();
 

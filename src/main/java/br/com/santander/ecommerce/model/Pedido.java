@@ -59,5 +59,9 @@ public class Pedido {
 		item.setPedido(this);
 		this.itens.add(item);
 	}
+	
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
 
 }

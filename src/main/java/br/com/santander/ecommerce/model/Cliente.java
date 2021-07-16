@@ -2,6 +2,7 @@ package br.com.santander.ecommerce.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class Cliente {
 		return dataNascimento;
 	}
 
-	public void setEnderecos(List<Endereco> enderecos) {
+	public void setEnderecos(Collection<Endereco> enderecos) {
 		enderecos.forEach(e -> adicionaEndereco(e));
 	}
 

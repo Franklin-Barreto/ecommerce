@@ -1,16 +1,18 @@
 package br.com.santander.ecommerce.model.dto;
 
-public class ItemPedidoInputDto {
+import javax.validation.constraints.NotNull;
 
-	private int produtoId;
+public class ItemPedidoInputDto {
+	@NotNull
+	private Integer produtoId;
 	private int quantidade;
 
-	public ItemPedidoInputDto(int produtoId, int quantidade) {
+	public ItemPedidoInputDto(Integer produtoId, int quantidade) {
 		this.produtoId = produtoId;
 		this.quantidade = quantidade;
 	}
 
-	public int getProdutoId() {
+	public Integer getProdutoId() {
 		return produtoId;
 	}
 

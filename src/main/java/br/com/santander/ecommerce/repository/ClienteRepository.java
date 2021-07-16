@@ -6,4 +6,7 @@ import br.com.santander.ecommerce.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
+	Cliente findByNome(String nome);
+	
+
 }

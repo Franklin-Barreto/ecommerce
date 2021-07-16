@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido {
 
@@ -25,6 +27,7 @@ public class ItemPedido {
 	private Produto produto;
 	@ManyToOne
 	@JoinColumn(name = "pedido_fk")
+	@JsonIgnore
 	private Pedido pedido;
 	private int quantidade;
 

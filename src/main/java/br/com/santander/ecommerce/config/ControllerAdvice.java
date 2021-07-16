@@ -13,17 +13,25 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GerenciadorErro {
+public class ControllerAdvice {
 
 	@Autowired
-	private MessageSource mensagem;
-	
+	private MessageSource message;
+
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<ErroDto> badRequestError(MethodArgumentNotValidException exception){
-		return exception.getFieldErrors().stream().map(e->{
-			String msg  = mensagem.getMessage(e, LocaleContextHolder.getLocale());
-			return new ErroDto(e.getField(),msg);
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public List<ErroDto> getErro(MethodArgumentNotValidException ex) {
+		List<ErroDto> erros = ex.getFieldErrors().stream().map(e -> {
+			String mensagem = message.getMessage(e, LocaleContextHolder.getLocale());
+			return new ErroDto(e.getField(), mensagem);
 		}).collect(Collectors.toList());
+		return erros;
+	}
+
+	@ExceptionHandler(value = IllegalArgumentException.class)
+	public ErroDto getErro(IllegalArgumentException ex) {
+		//String message2 = message.getMessage(null, LocaleContextHolder.getLocale());
+		//return new ErroDto(null, message2);
+		return new ErroDto(null, ex.getMessage());
 	}
 }
