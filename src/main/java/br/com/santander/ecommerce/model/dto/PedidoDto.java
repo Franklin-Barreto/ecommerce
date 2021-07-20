@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import br.com.santander.ecommerce.model.Pedido;
 
 public class PedidoDto {
 
@@ -40,6 +43,14 @@ public class PedidoDto {
 
 	public BigDecimal getValorTotal() {
 		return valorTotal;
+	}
+
+	public static PedidoDto converte(Pedido pedido) {
+		return new PedidoDto(pedido.getId(), pedido.getCliente().getNome(),
+				pedido.getItens().stream()
+						.map(ItemPedidoDto::converte)
+						.collect(Collectors.toList()),
+				pedido.getDataCriacao(), pedido.getValorTotal());
 	}
 
 }

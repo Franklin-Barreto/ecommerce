@@ -19,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.santander.ecommerce.model.Cliente;
 import br.com.santander.ecommerce.model.ItemPedido;
 import br.com.santander.ecommerce.model.Pedido;
-import br.com.santander.ecommerce.model.dto.ItemPedidoDto;
 import br.com.santander.ecommerce.model.dto.PedidoDto;
 import br.com.santander.ecommerce.model.dto.PedidoDtoInput;
 import br.com.santander.ecommerce.repository.ClienteRepository;
@@ -51,8 +50,7 @@ public class PedidoController {
 
 		Pedido pedido = new Pedido(cliente);
 		List<ItemPedido> itens = pedidoDto.getItensPedidoInputDto().stream()
-				.map(i -> new ItemPedido(produtoService.buscarPorId(i.getProdutoId()),
-						i.getQuantidade()))
+				.map(i -> new ItemPedido(produtoService.buscarPorId(i.getProdutoId()), i.getQuantidade()))
 				.collect(Collectors.toList());
 
 		itens.forEach(item -> pedido.adicionaItem(item));
@@ -62,19 +60,11 @@ public class PedidoController {
 		return ResponseEntity.created(uri).body(pedidoSalvo);
 	}
 
-	@GetMapping
-	public ResponseEntity<PedidoDto> buscarPorIdCliente(Integer clienteId) {
-		Pedido pedido = pedidoRepository.findByClienteId(clienteId);
-		// List<ItemPedido> itensPedido =
-		// itemPedidoRepository.findAllByPedidoId(pedido.getId());
-		// era List<ItemPedidoDto> itensPedidoDto = itensPedido.stream()
-
-		List<ItemPedidoDto> itensPedidoDto = pedido.getItens().stream()
-				.map(i -> new ItemPedidoDto(i.getProduto().getNome(), i.getProduto().getPreco(), i.getQuantidade()))
+	@GetMapping("/cliente/{clienteId}")
+	public ResponseEntity<List<PedidoDto>> buscarPorIdCliente(@PathVariable Integer clienteId) {
+		List<PedidoDto> pedidos = pedidoRepository.findAllByClienteId(clienteId).stream().map(PedidoDto::converte)
 				.collect(Collectors.toList());
-		PedidoDto pedidoDto = new PedidoDto(pedido.getId(), pedido.getCliente().getNome(), itensPedidoDto,
-				pedido.getDataCriacao(), pedido.getValorTotal());
-		return ResponseEntity.ok(pedidoDto);
+		return ResponseEntity.ok(pedidos);
 	}
 
 	@GetMapping("/{id}")

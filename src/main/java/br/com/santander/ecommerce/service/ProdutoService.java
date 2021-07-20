@@ -13,4 +13,6 @@ public interface ProdutoService {
 	Produto salvar(Produto produto);
 
 	void remover(Integer id);
+
+	List<Produto> buscarPorCategoriaId(Integer id);
 }

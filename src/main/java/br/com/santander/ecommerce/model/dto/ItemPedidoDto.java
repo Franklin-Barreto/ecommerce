@@ -2,6 +2,8 @@ package br.com.santander.ecommerce.model.dto;
 
 import java.math.BigDecimal;
 
+import br.com.santander.ecommerce.model.ItemPedido;
+
 public class ItemPedidoDto {
 
 	private String produtoNome;
@@ -24,6 +26,10 @@ public class ItemPedidoDto {
 
 	public Integer getQuantidade() {
 		return quantidade;
+	}
+	
+	public static ItemPedidoDto converte(ItemPedido itemPedido) {
+		return new ItemPedidoDto(itemPedido.getProduto().getNome(), itemPedido.getValor(), itemPedido.getQuantidade());
 	}
 
 }

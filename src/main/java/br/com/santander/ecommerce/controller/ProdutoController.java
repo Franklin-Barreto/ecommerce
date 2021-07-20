@@ -1,8 +1,6 @@
 package br.com.santander.ecommerce.controller;
 
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.ecommerce.model.Categoria;
 import br.com.santander.ecommerce.model.Produto;
-import br.com.santander.ecommerce.model.dto.ProdutoDto;
 import br.com.santander.ecommerce.model.dto.ProdutoDtoInput;
 import br.com.santander.ecommerce.repository.CategoriaRepository;
-import br.com.santander.ecommerce.repository.ProdutoRepository;
 import br.com.santander.ecommerce.service.ProdutoService;
 
 @RestController
@@ -42,6 +39,18 @@ public class ProdutoController {
 	public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
 	//	Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe produto com o id " + id));
 		 return ResponseEntity.ok(produtoService.buscarPorId(id));
+	}
+	
+	@ResponseStatus( code = HttpStatus.OK)
+	@GetMapping("/categoria/{id}")
+	public List<Produto> buscarPorCategoriaId(@PathVariable Integer id){
+		return produtoService.buscarPorCategoriaId(id);
+				
+	} 
+	
+	@GetMapping
+	public List<Produto> buscarTodos(){
+		return produtoService.buscarTodos();
 	}
 
 }

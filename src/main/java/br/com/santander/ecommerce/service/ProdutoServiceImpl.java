@@ -27,8 +27,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
 	@Override
 	public List<Produto> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return produtoRepository.findAll();
 	}
 
 	@Override
@@ -41,6 +40,11 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public void remover(Integer id) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public List<Produto> buscarPorCategoriaId(Integer id) {
+		return produtoRepository.findAllByCategoriaId(id);
 	}
 
 }
