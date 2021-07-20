@@ -3,6 +3,8 @@ package br.com.santander.ecommerce.config;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -27,9 +29,10 @@ public class ControllerAdvice {
 		}).collect(Collectors.toList());
 		return erros;
 	}
-
-	@ExceptionHandler(value = IllegalArgumentException.class)
-	public ErroDto getErro(IllegalArgumentException ex) {
+	
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value = {IllegalArgumentException.class,EntityNotFoundException.class} )
+	public ErroDto getErro(Exception ex) {
 		//String message2 = message.getMessage(null, LocaleContextHolder.getLocale());
 		//return new ErroDto(null, message2);
 		return new ErroDto(null, ex.getMessage());

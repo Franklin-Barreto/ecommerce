@@ -1,7 +1,6 @@
 package br.com.santander.ecommerce.controller;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ import br.com.santander.ecommerce.model.dto.PedidoDtoInput;
 import br.com.santander.ecommerce.repository.ClienteRepository;
 import br.com.santander.ecommerce.repository.ItemPedidoRepository;
 import br.com.santander.ecommerce.repository.PedidoRepository;
-import br.com.santander.ecommerce.repository.ProdutoRepository;
+import br.com.santander.ecommerce.service.ProdutoService;
 
 @RestController
 @RequestMapping("pedidos")
@@ -33,16 +33,14 @@ public class PedidoController {
 
 	private PedidoRepository pedidoRepository;
 	private ClienteRepository clienteRepository;
-	private ProdutoRepository produtoRepository;
-	private ItemPedidoRepository itemPedidoRepository;
+	private ProdutoService produtoService;
 
 	@Autowired
 	public PedidoController(PedidoRepository pedidoRepository, ClienteRepository clienteRepository,
-			ProdutoRepository produtoRepository,ItemPedidoRepository itemPedidoRepository) {
+			ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 		this.clienteRepository = clienteRepository;
-		this.produtoRepository = produtoRepository;
-		this.itemPedidoRepository = itemPedidoRepository;
+		this.produtoService = produtoService;
 	}
 
 	@PostMapping
@@ -53,7 +51,8 @@ public class PedidoController {
 
 		Pedido pedido = new Pedido(cliente);
 		List<ItemPedido> itens = pedidoDto.getItensPedidoInputDto().stream()
-				.map(i -> new ItemPedido(produtoRepository.getOne(i.getProdutoId()), i.getQuantidade()))
+				.map(i -> new ItemPedido(produtoService.buscarPorId(i.getProdutoId()),
+						i.getQuantidade()))
 				.collect(Collectors.toList());
 
 		itens.forEach(item -> pedido.adicionaItem(item));
@@ -64,16 +63,23 @@ public class PedidoController {
 	}
 
 	@GetMapping
-	public ResponseEntity<PedidoDto> buscarPorId(Integer clienteId) {
+	public ResponseEntity<PedidoDto> buscarPorIdCliente(Integer clienteId) {
 		Pedido pedido = pedidoRepository.findByClienteId(clienteId);
-		//List<ItemPedido> itensPedido = itemPedidoRepository.findAllByPedidoId(pedido.getId());
+		// List<ItemPedido> itensPedido =
+		// itemPedidoRepository.findAllByPedidoId(pedido.getId());
 		// era List<ItemPedidoDto> itensPedidoDto = itensPedido.stream()
-		
-		List<ItemPedidoDto> itensPedidoDto =		pedido.getItens().stream().map(i -> new ItemPedidoDto(i.getProduto().getNome(), i.getProduto().getPreco(), i.getQuantidade()))
+
+		List<ItemPedidoDto> itensPedidoDto = pedido.getItens().stream()
+				.map(i -> new ItemPedidoDto(i.getProduto().getNome(), i.getProduto().getPreco(), i.getQuantidade()))
 				.collect(Collectors.toList());
 		PedidoDto pedidoDto = new PedidoDto(pedido.getId(), pedido.getCliente().getNome(), itensPedidoDto,
 				pedido.getDataCriacao(), pedido.getValorTotal());
 		return ResponseEntity.ok(pedidoDto);
+	}
+
+	@GetMapping("/{id}")
+	public Pedido buscarPorId(@PathVariable Integer id) {
+		return pedidoRepository.getOne(id);
 	}
 
 }
