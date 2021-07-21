@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,40 +13,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.ecommerce.model.Categoria;
-import br.com.santander.ecommerce.repository.CategoriaRepository;
+import br.com.santander.ecommerce.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaController {
 
-	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private final CategoriaService categoriaService;
+	
+	public CategoriaController(CategoriaService categoriaService) {
+		this.categoriaService = categoriaService;
+	}
 
 	@PostMapping
 	public Categoria salvar(@RequestBody @Valid Categoria categoria) {
-		return categoriaRepository.save(categoria);
+		return categoriaService.salvar(categoria);
 	}
 
 	@DeleteMapping("/{id}")
 	public void excluir(@PathVariable Integer id) {
-		categoriaRepository.deleteById(id);
+		categoriaService.excluir(id);
 	}
 
 	@GetMapping
 	public List<Categoria> listarTodos() {
-		return categoriaRepository.findAll();
+		return categoriaService.buscarTodos();
 	}
 
 	@GetMapping("/{id}")
 	public Categoria buscarPorId(@PathVariable Integer id) {
-		/*Optional<Categoria> optional = categoriaRepository.findById(id);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		throw new RuntimeException("Não existe recurso com esse id");*/
-		
-		//return categoriaRepository.findById(id).orElseThrow(()-> new RuntimeException("Não existe recurso com esse id") );
-		return categoriaRepository.getOne(id);
+		return categoriaService.buscarPorId(id);
 	}
 
 }
