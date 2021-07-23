@@ -2,7 +2,9 @@ package br.com.santander.ecommerce.controller;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.ecommerce.model.Categoria;
 import br.com.santander.ecommerce.model.Produto;
+import br.com.santander.ecommerce.model.dto.ProdutoDto;
 import br.com.santander.ecommerce.model.dto.ProdutoDtoInput;
 import br.com.santander.ecommerce.repository.CategoriaRepository;
 import br.com.santander.ecommerce.service.ProdutoService;
@@ -37,19 +40,24 @@ public class ProdutoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
-	//	Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe produto com o id " + id));
-		 return ResponseEntity.ok(produtoService.buscarPorId(id));
+		ProdutoDto produtoDto = ProdutoDto.converte(produtoService.buscarPorId(id));
+		Link self = linkTo(CategoriaController.class).slash(id).withSelfRel();
+		Link categorias = linkTo(CategoriaController.class).withRel("categorias");
+		produtoDto.getCategoria().add(self).add(categorias);
+		produtoDto.add(linkTo(ProdutoController.class).slash(id).withSelfRel())
+				.add(linkTo(ProdutoController.class).withRel("produtos"));
+		return ResponseEntity.ok(produtoDto);
 	}
-	
-	@ResponseStatus( code = HttpStatus.OK)
+
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/categoria/{id}")
-	public List<Produto> buscarPorCategoriaId(@PathVariable Integer id){
+	public List<Produto> buscarPorCategoriaId(@PathVariable Integer id) {
 		return produtoService.buscarPorCategoriaId(id);
-				
-	} 
-	
+
+	}
+
 	@GetMapping
-	public List<Produto> buscarTodos(){
+	public List<Produto> buscarTodos() {
 		return produtoService.buscarTodos();
 	}
 
