@@ -1,10 +1,13 @@
 package br.com.santander.ecommerce.controller;
 
-import java.util.List;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,8 +60,16 @@ public class ProdutoController {
 	}
 
 	@GetMapping
-	public List<Produto> buscarTodos() {
-		return produtoService.buscarTodos();
-	}
+	public ResponseEntity<?> buscarTodos() {
+		List<ProdutoDto> produtos = produtoService.buscarTodos().stream().map(p -> {
+			Link selfProduto = linkTo(methodOn(ProdutoController.class).buscarPorId(p.getId())).withSelfRel();
 
+			Link selfCategoria = linkTo(CategoriaController.class).slash(p.getCategoria().getId()).withSelfRel();
+			ProdutoDto produtoDto = ProdutoDto.converte(p).add(selfProduto);
+			produtoDto.getCategoria().add(selfCategoria);
+			return produtoDto;
+		}).collect(Collectors.toList());
+
+		return ResponseEntity.ok(RepresentationModel.of(produtos).add(linkTo(ProdutoController.class).withSelfRel()));
+	}
 }
