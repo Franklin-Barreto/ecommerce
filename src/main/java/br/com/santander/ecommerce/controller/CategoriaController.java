@@ -2,8 +2,6 @@ package br.com.santander.ecommerce.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,9 +39,7 @@ public class CategoriaController {
 
 	@GetMapping
 	public ResponseEntity<?> listarTodos() {
-
-		Link self = Link.of("http://localhost:8080/categorias");
-		return ResponseEntity.ok(RepresentationModel.of(categoriaService.buscarTodos()).add(self));
+		return ResponseEntity.ok(categoriaAssembler.toCollectionModel(categoriaService.buscarTodos()));
 	}
 
 	@GetMapping("/{id}")

@@ -13,9 +13,20 @@ public class CategoriaDto extends RepresentationModel<CategoriaDto> {
 		this.id = id;
 		this.nome = nome;
 	}
+	
+	protected CategoriaDto() {
+	}
 
 	public Integer getId() {
 		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getNome() {

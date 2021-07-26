@@ -35,6 +35,10 @@ public class ProdutoDto extends RepresentationModel<ProdutoDto> {
 	public CategoriaDto getCategoria() {
 		return categoria;
 	}
+	
+	public void setCategoria(CategoriaDto categoria) {
+		this.categoria = categoria;
+	}
 
 	public static ProdutoDto converte(Produto produto) {
 		return new ProdutoDto(produto.getId(), produto.getNome(), produto.getPreco(),
