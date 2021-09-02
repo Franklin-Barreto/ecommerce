@@ -47,5 +47,4 @@ public class CategoriaController {
 		Categoria categoria = categoriaService.buscarPorId(id);
 		return ResponseEntity.ok(categoriaAssembler.toModel(categoria));
 	}
-
 }
