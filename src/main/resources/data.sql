@@ -1,7 +1,14 @@
-insert into cliente(nome,cpf,data_nascimento) values('Alberto Augusto','12365478978','1984-05-15'); 
-insert into cliente(nome,cpf,data_nascimento) values('Alberto Roberto','87455447747','1988-04-20'); 
-insert into cliente(nome,cpf,data_nascimento) values('Maria Clara','74587425856','2000-09-01'); 
-insert into cliente(nome,cpf,data_nascimento) values('Juliana Santos','32589674125','1999-02-25'); 
+insert into usuario(nome,cpf,data_nascimento,email,senha) values('Alberto Augusto','12365478978','1984-05-15','albertoa@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y'); 
+insert into usuario(nome,cpf,data_nascimento,email,senha) values('Alberto Roberto','87455447747','1988-04-20','albertor@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y'); 
+insert into usuario(nome,cpf,data_nascimento,email,senha) values('Maria Clara','74587425856','2000-09-01','maria@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y'); 
+insert into usuario(nome,cpf,data_nascimento,email,senha) values('Juliana Santos','32589674125','1999-02-25','juliana@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y');
+
+INSERT INTO perfil VALUES(null,'ROLE_USUARIO');
+INSERT INTO perfil VALUES(null,'ROLE_ADM');
+
+INSERT INTO usuario_perfis VALUES (1,1);
+INSERT INTO usuario_perfis VALUES (2,2);
+
 insert into categoria values (null, 'videogames');
 insert into produto (id, categoria_id, nome, preco) values (null, 1, 'Playstation 4', 2500.0);
 insert into produto (id, categoria_id, nome, preco) values (null, 1, 'X-box', 2000.0);
@@ -39,16 +46,3 @@ insert into item_pedido VALUES (null,1,2000.0,5,10);
 
 insert into pedido VALUES (null,'2020-02-10',2000.0,2);
 insert into item_pedido VALUES (null,1,2000.0,6,10);
-
-
-INSERT INTO usuario VALUES (null,'joao@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y');
-INSERT INTO usuario VALUES (null,'maria@hotmail.com','$2a$12$pdlJY7IGuULz44gDcwzOKeW0YhIGRwPG3aHUw5TxMxgUV60KEwp6y');
-
-INSERT INTO perfil VALUES(null,'ROLE_USUARIO');
-INSERT INTO perfil VALUES(null,'ROLE_ADM');
-
-INSERT INTO usuario_perfis VALUES (1,1);
-INSERT INTO usuario_perfis VALUES (2,2);
-
-
-

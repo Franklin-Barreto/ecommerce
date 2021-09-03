@@ -3,6 +3,7 @@ package br.com.santander.ecommerce.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class CategoriaController {
 		this.categoriaAssembler = categoriaAssembler;
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_ADM')")
 	@PostMapping
 	public Categoria salvar(@RequestBody @Valid Categoria categoria) {
 		return categoriaService.salvar(categoria);
@@ -36,7 +38,7 @@ public class CategoriaController {
 	public void excluir(@PathVariable Integer id) {
 		categoriaService.excluir(id);
 	}
-
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping
 	public ResponseEntity<?> listarTodos() {
 		return ResponseEntity.ok(categoriaAssembler.toCollectionModel(categoriaService.buscarTodos()));

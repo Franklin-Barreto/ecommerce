@@ -10,5 +10,5 @@ import br.com.santander.ecommerce.model.Pedido;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
-	List<Pedido> findAllByClienteId(Integer clienteId);
+	List<Pedido> findAllByUsuarioId(Integer usuarioId);
 }

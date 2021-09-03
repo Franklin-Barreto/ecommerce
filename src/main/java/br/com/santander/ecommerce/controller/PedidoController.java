@@ -62,7 +62,7 @@ public class PedidoController {
 
 	@GetMapping("/cliente/{clienteId}")
 	public ResponseEntity<List<PedidoDto>> buscarPorIdCliente(@PathVariable Integer clienteId) {
-		List<PedidoDto> pedidos = pedidoRepository.findAllByClienteId(clienteId).stream().map(PedidoDto::converte)
+		List<PedidoDto> pedidos = pedidoRepository.findAllByUsuarioId(clienteId).stream().map(PedidoDto::converte)
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(pedidos);
 	}
