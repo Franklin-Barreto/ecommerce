@@ -1,5 +1,5 @@
 package br.com.santander.ecommerce.controller;
-
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +40,7 @@ public class ClienteController {
 		if(optional.isPresent()) {
 			return optional.get(); 
 		}
-		throw new RuntimeException("Não existe");*/
+		throw new RuntimeException("Não existe");
 		//return new Cliente(null, null, null);
 		// return clienteRepository.findById(id).orElse(new Cliente(null, null, null));
 		//clienteRepository.findById(id).orElseThrow(()-> new RuntimeException("Não existe"));
@@ -52,3 +52,4 @@ public class ClienteController {
 		return clienteRepository.findByNome(nome);
 	}
 }
+*/

@@ -46,7 +46,7 @@ public class PedidoDto {
 	}
 
 	public static PedidoDto converte(Pedido pedido) {
-		return new PedidoDto(pedido.getId(), pedido.getCliente().getNome(),
+		return new PedidoDto(pedido.getId(), pedido.getUsuario().getNome(),
 				pedido.getItens().stream()
 						.map(ItemPedidoDto::converte)
 						.collect(Collectors.toList()),

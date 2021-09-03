@@ -18,7 +18,7 @@ public class Endereco {
 	private String numero;
 	private String cidade;
 	@ManyToOne
-	private Cliente cliente;
+	private Usuario usuario;
 
 	public Endereco(String rua, String numero, String cidade) {
 		super();
@@ -45,8 +45,8 @@ public class Endereco {
 		return cidade;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

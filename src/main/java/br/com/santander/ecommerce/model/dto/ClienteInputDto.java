@@ -4,9 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.santander.ecommerce.model.Cliente;
 import br.com.santander.ecommerce.model.Endereco;
-
+/*
 public class ClienteInputDto {
 
 	private String nome;
@@ -45,3 +44,4 @@ public class ClienteInputDto {
 	}
 
 }
+*/

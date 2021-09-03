@@ -1,15 +1,21 @@
 package br.com.santander.ecommerce.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +32,12 @@ public class Usuario implements UserDetails {
 	private Integer id;
 	private String email;
 	private String senha;
+	private String nome;
+	private String cpf;
+	private LocalDate dataNascimento;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Endereco> enderecos = new ArrayList<>();
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Perfil> perfis = new HashSet<>();
 
@@ -43,6 +55,31 @@ public class Usuario implements UserDetails {
 	public Integer getId() {
 		return id;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setEnderecos(Collection<Endereco> enderecos) {
+		enderecos.forEach(e -> adicionaEndereco(e));
+	}
+
+	public void adicionaEndereco(Endereco endereco) {
+		endereco.setUsuario(this);
+		this.enderecos.add(endereco);
+	}
+
+	public List<Endereco> getEnderecos() {
+		return Collections.unmodifiableList(enderecos);
+	}	
 
 	@Override
 	public String getPassword() {

@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.santander.ecommerce.model.Cliente;
 import br.com.santander.ecommerce.model.ItemPedido;
 import br.com.santander.ecommerce.model.Pedido;
+import br.com.santander.ecommerce.model.Usuario;
 import br.com.santander.ecommerce.model.dto.PedidoDto;
 import br.com.santander.ecommerce.model.dto.PedidoDtoInput;
-import br.com.santander.ecommerce.repository.ClienteRepository;
 import br.com.santander.ecommerce.repository.ItemPedidoRepository;
 import br.com.santander.ecommerce.repository.PedidoRepository;
+import br.com.santander.ecommerce.repository.UsuarioRepository;
 import br.com.santander.ecommerce.service.ProdutoService;
 
 @RestController
@@ -31,11 +31,11 @@ import br.com.santander.ecommerce.service.ProdutoService;
 public class PedidoController {
 
 	private PedidoRepository pedidoRepository;
-	private ClienteRepository clienteRepository;
+	private UsuarioRepository clienteRepository;
 	private ProdutoService produtoService;
 
 	@Autowired
-	public PedidoController(PedidoRepository pedidoRepository, ClienteRepository clienteRepository,
+	public PedidoController(PedidoRepository pedidoRepository, UsuarioRepository clienteRepository,
 			ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 		this.clienteRepository = clienteRepository;
@@ -46,7 +46,7 @@ public class PedidoController {
 	public ResponseEntity<Pedido> salvar(@RequestBody @Valid PedidoDtoInput pedidoDto,
 			UriComponentsBuilder uriBuilder) {
 
-		Cliente cliente = clienteRepository.getOne(pedidoDto.getClienteId());
+		Usuario cliente = clienteRepository.getOne(pedidoDto.getClienteId());
 
 		Pedido pedido = new Pedido(cliente);
 		List<ItemPedido> itens = pedidoDto.getItensPedidoInputDto().stream()
